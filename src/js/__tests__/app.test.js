@@ -1,13 +1,15 @@
 import GameSavingLoader from '../app';
+import read from '../reader';
+
+jest.mock('../reader')
 
 test('wfwef', async (done) => {
+  read.mockReturnValue(Promise.reject(new Error("провал")))
   const data = await GameSavingLoader.load();
-  expect(data).toEqual({
-    id: 9,
-    created: 1546300800,
-    userInfo: {
-      id: 1, name: 'Hitman', level: 10, points: 2000,
-    },
-  });
+  console.log(data)
+  // expect(async()=>{
+  //   await GameSavingLoader.load();
+  // }).toThrow()
+  expect(data).rejects.toEqual('провал');
   done();
 });
