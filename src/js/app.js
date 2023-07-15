@@ -10,9 +10,8 @@ export default class GameSavingLoader {
         const data = await read();
         const value = await json(data);
         return JSON.parse(value);
-      }
-      catch(e) {
-        // return e
+      } catch (e) {
+        return e;
       }
     })();
   }

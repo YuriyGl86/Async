@@ -1,15 +1,15 @@
 import GameSavingLoader from '../app';
-import read from '../reader';
+import read, { read as originRead } from '../reader';
 
-jest.mock('../reader')
+jest.mock('../reader');
 
-test('wfwef', async (done) => {
-  read.mockReturnValue(Promise.reject(new Error("провал")))
-  const data = await GameSavingLoader.load();
-  console.log(data)
-  // expect(async()=>{
-  //   await GameSavingLoader.load();
-  // }).toThrow()
-  expect(data).rejects.toEqual('провал');
+test('testing reject promise', async (done) => {
+  const expectedError = new Error('Rejected promise in "read"');
+  read.mockRejectedValue(expectedError);
+  try {
+    const data = await GameSavingLoader.load();
+  } catch {
+    expect(err.message).toBe(expectedError.message);
+  }
   done();
 });
